@@ -1,0 +1,165 @@
+<ion-content padding>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-md-6 offset-md-3>
+        <div padding>
+          <ion-segment [(ngModel)]="segmento">
+            <ion-segment-button *ngIf="isAdmin" value="empresa">
+              Empresa
+            </ion-segment-button>
+            <ion-segment-button *ngIf="isAdmin" value="facultad">
+              Facultad
+            </ion-segment-button>
+            <ion-segment-button *ngIf="isAdmin" value="carrera">
+              Carrera
+            </ion-segment-button>
+            <ion-segment-button *ngIf="isAdmin" value="tipoActividad">
+              Tipos actividad
+            </ion-segment-button>
+            <ion-segment-button value="perfil">
+              Perfil
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div [ngSwitch]="segmento">
+    <ion-list *ngSwitchCase="'empresa'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-md-10 offset-md-1>
+            <ion-buttons end>
+              <button ion-button round outline color="secondary" (click)="guardarEmpresa()">
+                Crear empresa
+              </button>
+            </ion-buttons>
+            <ion-card *ngFor="let item of empresas">
+              <ion-card-content>
+                <ion-row>
+                  <ion-col col-6>
+                    <p text-justify>
+                      <strong>Nombre:</strong>
+                      {{ item.nombre }}
+                    </p>
+                  </ion-col>
+                  <ion-col col-6 text-right>
+                    <button ion-button (click)="guardarEmpresa(item)">Editar</button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'facultad'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-md-10 offset-md-1>
+            <ion-buttons end>
+              <button ion-button round outline color="secondary" (click)="guardarFacultad()">
+                Crear Facultad
+              </button>
+            </ion-buttons>
+            <ion-card *ngFor="let item of facultades">
+              <ion-card-content>
+                <ion-row>
+                  <ion-col col-6>
+                    <p text-justify>
+                      <strong>Nombre:</strong>
+                      {{ item.nombre }}
+                    </p>
+                  </ion-col>
+                  <ion-col col-6 text-right>
+                    <button ion-button (click)="guardarFacultad(item)">Editar</button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'carrera'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-md-10 offset-md-1>
+            <ion-buttons end>
+              <button ion-button round outline color="secondary" (click)="guardarCarrera()">
+                Crear Carrera
+              </button>
+            </ion-buttons>
+            <ion-card *ngFor="let item of carreras">
+              <ion-card-content>
+                <ion-row>
+                  <ion-col col-4>
+                    <p text-justify>
+                      <strong>Nombre:</strong>
+                      {{ item.nombre }}
+                    </p>
+                  </ion-col>
+                  <ion-col col-4>
+                    <p text-justify>
+                      <strong>Facultad:</strong>
+                      {{ item.facultad.nombre }}
+                    </p>
+                  </ion-col>
+                  <ion-col col-4 text-right>
+                    <button ion-button (click)="guardarCarrera(item)">Editar</button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'tipoActividad'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-md-10 offset-md-1>
+            <ion-buttons end>
+              <button ion-button round outline color="secondary" (click)="guardarTipoActividad()">
+                Crear Tipo de actividad
+              </button>
+            </ion-buttons>
+            <ion-card *ngFor="let item of tiposActividad">
+              <ion-card-content>
+                <ion-row>
+                  <ion-col col-6>
+                    <p text-justify>
+                      <strong>Nombre:</strong>
+                      {{ item.nombre }}
+                    </p>
+                  </ion-col>
+                  <ion-col col-6 text-right>
+                    <button ion-button (click)="guardarTipoActividad(item)">Editar</button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'perfil'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-md-10 offset-md-1>
+            <h2 text-center>Datos del usuario</h2>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+  </div>
+
+
+</ion-content>

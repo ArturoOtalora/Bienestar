@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+
+  <ion-item>
+    <ion-label floating>Nombre</ion-label>
+    <ion-input [(ngModel)]="diplomado.nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Vacantes</ion-label>
+    <ion-input type="number" [(ngModel)]="diplomado.vacantes"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Facultad</ion-label>
+    <ion-select [(ngModel)]="diplomado.facultad_id">
+      <ion-option *ngFor="let facultad of facultades" [value]="facultad.id">{{facultad.nombre}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Fecha de inicio</ion-label>
+    <ion-datetime [(ngModel)]="diplomado.fecha_inicio" displayFormat="MM/DD/YYYY"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Fecha de finalización</ion-label>
+    <ion-datetime [(ngModel)]="diplomado.fecha_fin" displayFormat="MM/DD/YYYY"></ion-datetime>
+  </ion-item>
+  <br>
+  <ion-item no-lines>
+    <ion-label>Activar diplomado</ion-label>
+    <ion-checkbox [(ngModel)]="diplomado.estado" checked="true"></ion-checkbox>
+  </ion-item>
+  <br>
+  <br>
+  <button ion-button block (click)="guardarDiplomado(diplomado)">Guardar</button>
+</ion-content>

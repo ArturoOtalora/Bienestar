@@ -1,0 +1,126 @@
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-md-6 offset-md-3>
+        <div padding>
+          <ion-segment [(ngModel)]="segmento">
+            <ion-segment-button value="diplomados">
+              Diplomados
+            </ion-segment-button>
+            <ion-segment-button *ngIf="isEmpleado" value="inscritos">
+              Inscritos
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div [ngSwitch]="segmento">
+    <ion-list *ngSwitchCase="'diplomados'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-md-10 offset-md-1>
+            <ion-searchbar (ionInput)="filtrarDiplomados($event)"></ion-searchbar>
+            <ion-buttons end>
+              <button *ngIf="isEmpleado" ion-button round outline color="secondary" (click)="nuevoDiplomado()">
+                Crear diplomado
+              </button>
+            </ion-buttons>
+            <ion-card *ngFor="let diplomado of diplomados">
+              <ion-card-header>
+                <h1>{{ diplomado.nombre }}</h1>
+                <ion-note>
+                  {{ diplomado.facultad_nombre }}
+                </ion-note>
+              </ion-card-header>
+              <ion-card-content>
+                <p text-justify>
+                  <strong>Fecha inicio: </strong>
+                  <ion-note>
+                    {{ diplomado.fecha_inicio }} </ion-note>
+                </p>
+                <p text-justify>
+                  <strong>Fecha fin:</strong>
+                  <ion-note>
+                    {{ diplomado.fecha_fin }}
+                  </ion-note>
+                </p>
+                <ion-row>
+                  <ion-col col-6 col-md-4>
+                    <p text-justify>
+                      <strong>Estado:</strong>
+                      <ion-badge *ngIf="diplomado.estado; else badge">Activo</ion-badge>
+                      <ng-template #badge>
+                        <ion-badge color="danger">Finalizado</ion-badge>
+                      </ng-template>
+                    </p>
+                  </ion-col>
+                  <ion-col col-6 col-md-4 text-right>
+                    <p>
+                      <strong>Vacantes:</strong>
+                      <ion-badge color="secondary">{{ diplomado.vacantes }}</ion-badge>
+                    </p>
+                  </ion-col>
+                  <ion-col col-6 col-md-4 text-right>
+                    <p>
+                      <strong>Inscritos:</strong>
+                      <ion-badge color="secondary">{{ diplomado.alumnos_inscritos }}</ion-badge>
+                    </p>
+                  </ion-col>
+                </ion-row>
+
+                <button *ngIf="isEmpleado" ion-button full (click)="editarDiplomado(diplomado)">Editar</button>
+                <button *ngIf="isAlumno" ion-button full (click)="aplicarDiplomado(diplomado)" [disabled]="!diplomado.estado || diplomado.inscrito">Inscribirse</button>
+              </ion-card-content>
+            </ion-card>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'inscritos'">
+      <ion-item>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col col-12 col-md-10 offset-md-1>
+
+              <ion-card *ngFor="let inscrito of inscritos">
+                <ion-card-header>
+                  <h1>{{ inscrito.nombre }}</h1>
+                  <ion-note>
+                    {{ inscrito.facultad_nombre }}
+                  </ion-note>
+                </ion-card-header>
+                <ion-card-content>
+
+                  <p text-justify>
+                    <strong>Estudiantes:</strong>
+                    <ion-note *ngFor="let item of inscrito.alumnos">
+                      {{ item.nombre }} {{ item.correo }} ||
+                    </ion-note>
+                  </p>
+
+                  <p text-justify>
+                    <strong>Estado:</strong>
+                    <ion-badge *ngIf="inscrito.estado; else badge">Activo</ion-badge>
+                    <ng-template #badge>
+                      <ion-badge color="danger">Finalizado</ion-badge>
+                    </ng-template>
+                  </p>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+    </ion-list>
+
+  </div>
+
+</ion-content>

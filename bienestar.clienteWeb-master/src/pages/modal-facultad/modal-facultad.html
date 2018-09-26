@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Registro de Facultades</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>Nombre</ion-label>
+      <ion-input [(ngModel)]="facultad.nombre" type="text"></ion-input>
+    </ion-item>
+    <ion-footer>
+      <button ion-button block (click)="guardar()">Guardar</button>
+    </ion-footer>
+
+  </ion-list>
+
+</ion-content>

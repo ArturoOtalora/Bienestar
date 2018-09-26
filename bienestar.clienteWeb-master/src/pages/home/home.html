@@ -1,0 +1,46 @@
+<ion-content padding>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div text-center>
+    <img src="../../assets/imgs/9899.png" alt="Logo UDC">
+  </div>
+  <br>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-xs-12 col-md-6 offset-md-3>
+        <form [formGroup]="frmLogin" (ngSubmit)="login()">
+          <ion-item>
+            <ion-label floating>Documento</ion-label>
+            <ion-input formControlName="documento"></ion-input>
+          </ion-item>
+          <div *ngIf="frmLogin.controls['documento'].touched && !frmLogin.controls['documento'].valid">
+            <small color="danger" ion-text *ngIf="frmLogin.controls['documento'].hasError('required') ">
+              El documento es requerido
+            </small>
+            <small color="danger" ion-text *ngIf="frmLogin.controls['documento'].hasError('maxlength') ||
+             frmLogin.controls['documento'].hasError('minlength')">
+              Documento no válido
+            </small>
+          </div>
+          <ion-item>
+            <ion-label floating>contraseña</ion-label>
+            <ion-input type="password" formControlName="contrasena"></ion-input>
+          </ion-item>
+          <div *ngIf="frmLogin.controls['contrasena'].touched && !frmLogin.controls['contrasena'].valid">
+            <small color="danger" ion-text *ngIf="frmLogin.controls['contrasena'].hasError('required') ">
+              La contraseña es requerida
+            </small>
+          </div>
+          <br>
+          <br>
+          <button ion-button block type="submit" [disabled]="!frmLogin.valid">Iniciar sesión</button>
+        </form>
+        <button ion-button outline color="primary" [navPush]="registroAlumno">Registrarme</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

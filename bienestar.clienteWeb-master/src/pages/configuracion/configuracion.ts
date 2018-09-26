@@ -1,0 +1,95 @@
+import { ModalTipoActividadPage } from './../modal-tipo-actividad/modal-tipo-actividad';
+import { ModalCarreraPage } from './../modal-carrera/modal-carrera';
+import { ModalFacultadPage } from './../modal-facultad/modal-facultad';
+import { ModalEmpresaPage } from './../modal-empresa/modal-empresa';
+import { UsuarioProvider } from './../../providers/usuario/usuario';
+import { HttpProvider } from './../../providers/http/http';
+import { Component } from '@angular/core';
+import { NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
+import { Empresa, Facultad, TipoActividad, Carrera, Rol } from '../../modelos/modelos';
+
+@Component({
+  selector: 'page-configuracion',
+  templateUrl: 'configuracion.html',
+})
+export class ConfiguracionPage {
+
+  empresas: Empresa[];
+  facultades: Facultad[];
+  carreras: Carrera[];
+  tiposActividad: TipoActividad[];
+
+  rol: Rol;
+  segmento: any;
+  isAdmin: boolean;
+  isAlumno: boolean;
+
+
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private http: HttpProvider,
+    private toastCtrl: ToastController,
+    private modalCtrl: ModalController,
+    private user: UsuarioProvider) {
+
+    this.validarUsuario();
+    this.cargarData();
+
+  }
+
+  cargarData() {
+
+    this.http.get('empresa').then((data: any) => this.empresas = data.data);
+    this.http.get('facultad').then((data: any) => this.facultades = data.data);
+    this.http.get('carrera').then((data: any) => this.carreras = data.data);
+    this.http.get('tipo_actividad').then((data: any) => this.tiposActividad = data.data);
+
+  }
+
+  guardarEmpresa(item: Empresa) {
+    let modal = this.modalCtrl.create(ModalEmpresaPage, { data: item });
+    modal.onDidDismiss(data => {
+      this.http.get('empresa').then((data: any) => this.empresas = data.data);
+    });
+    modal.present();
+  }
+
+  guardarFacultad(item: Facultad) {
+    let modal = this.modalCtrl.create(ModalFacultadPage, { data: item });
+    modal.onDidDismiss(data => {
+      this.http.get('facultad').then((data: any) => this.facultades = data.data);
+    });
+    modal.present();
+  }
+
+  guardarCarrera(item: Carrera) {
+    let modal = this.modalCtrl.create(ModalCarreraPage, { data: item });
+    modal.onDidDismiss(data => {
+      this.http.get('carrera').then((data: any) => this.carreras = data.data);
+    });
+    modal.present();
+  }
+
+  guardarTipoActividad(item: TipoActividad) {
+    let modal = this.modalCtrl.create(ModalTipoActividadPage, { data: item });
+    modal.onDidDismiss(data => {
+      this.http.get('tipo_actividad').then((data: any) => this.tiposActividad = data.data);
+    });
+    modal.present();
+  }
+
+  validarUsuario() {
+    this.rol = this.user.getRol();
+    if (this.rol.nombre === 'Administrador') {
+      this.isAdmin = true;
+      this.segmento = 'empresa';
+    }
+    if (this.rol.nombre === 'Alumno') {
+      this.isAlumno = true;
+      this.segmento = 'perfil';
+
+    }
+  }
+
+}

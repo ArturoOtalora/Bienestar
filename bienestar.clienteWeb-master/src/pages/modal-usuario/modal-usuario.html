@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+
+        <form [formGroup]="frmRegistro" (ngSubmit)="registro()">
+          <ion-item>
+            <ion-label floating>Documento</ion-label>
+            <ion-input formControlName="documento"></ion-input>
+          </ion-item>
+          <div *ngIf="frmRegistro.controls['documento'].touched && !frmRegistro.controls['documento'].valid">
+            <small color="danger" ion-text *ngIf="frmRegistro.controls['documento'].hasError('required') ">
+              El documento es requerido
+            </small>
+            <small color="danger" ion-text *ngIf="frmRegistro.controls['documento'].hasError('maxlength') ||
+            frmRegistro.controls['documento'].hasError('minlength')">
+              Documento no válido
+            </small>
+          </div>
+          <ion-item>
+            <ion-label floating>Correo</ion-label>
+            <ion-input formControlName="correo"></ion-input>
+          </ion-item>
+          <div *ngIf="frmRegistro.controls['correo'].touched && !frmRegistro.controls['correo'].valid">
+            <small color="danger" ion-text *ngIf="frmRegistro.controls['correo'].hasError('required') ">
+              El Correo es requerido
+            </small>
+            <small color="danger" ion-text *ngIf="frmRegistro.controls['correo'].hasError('email') ">
+              Correo no válido
+            </small>
+          </div>
+          <ion-item>
+            <ion-label floating>Nombres</ion-label>
+            <ion-input formControlName="nombre"></ion-input>
+          </ion-item>
+          <div *ngIf="frmRegistro.controls['nombre'].touched && !frmRegistro.controls['nombre'].valid">
+            <small color="danger" ion-text *ngIf="frmRegistro.controls['nombre'].hasError('required') ">
+              El nombre es requerido
+            </small>
+            <small color="danger" ion-text *ngIf="frmRegistro.controls['nombre'].hasError('pattern')">
+              Nombres no válidos
+            </small>
+          </div>
+          <br>
+          <br>
+          <button ion-button block type="submit" [disabled]="!frmRegistro.valid">Registrar</button>
+        </form>
+
+</ion-content>

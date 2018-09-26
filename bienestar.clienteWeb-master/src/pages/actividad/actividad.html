@@ -1,0 +1,40 @@
+<ion-content padding>
+  <ion-searchbar (ionInput)="filtrarActividades($event)"></ion-searchbar>
+  <ion-buttons end>
+    <button *ngIf="isEmpleado" ion-button round outline color="secondary" (click)="nuevaActividad()">
+      Crear actividad
+    </button>
+  </ion-buttons>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-md-4 col-sm-6 *ngFor="let item of actividades">
+        <ion-card>
+          <img [src]="item.poster" />
+          <ion-card-title text-center>
+            {{ item.nombre }}
+          </ion-card-title>
+          <ion-card-content>
+            <p>
+              <strong>Detalle: </strong>
+              {{ item.detalle }}
+            </p>
+            <p>
+              <strong>Desde: </strong>
+              {{ item.fecha_inicio }}
+            </p>
+            <p>
+              <strong>Hasta: </strong>
+              {{ item.fecha_fin }}
+            </p>
+            <p>
+              <strong>Tipo Actividad: </strong>
+              {{ item.tipo_actividad.nombre }}
+            </p>
+          </ion-card-content>
+          <button *ngIf="isEmpleado" color="secondary" ion-button block (click)="editarActividad(item)">Editar</button>
+          <button ion-button block [navPush]="detalleActividadPage" [navParams]="{actividad: item}">Mas detales</button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

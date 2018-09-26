@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <h2>Fotos</h2>
+
+  <ion-item>
+    <ion-label id="poster_actividad" stacked>Imágenes</ion-label>
+    <ion-input type="file" accept="image/*" (change)="subirFoto($event)"></ion-input>
+  </ion-item>
+
+  <button ion-button (click)="enviarFoto()" [disabled]="!foto.imagen">Subir</button>
+
+  <ion-item *ngFor="let item of fotos" no-lines>
+    <img [src]="item.imagen" alt="">
+  </ion-item>
+
+</ion-content>

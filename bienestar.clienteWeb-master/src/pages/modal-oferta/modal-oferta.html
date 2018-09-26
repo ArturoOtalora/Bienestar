@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+
+  <ion-item>
+    <ion-label floating>Titulo</ion-label>
+    <ion-input [(ngModel)]="oferta.titulo"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Detalle</ion-label>
+    <ion-textarea [(ngModel)]="oferta.detalle"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Vacantes</ion-label>
+    <ion-input type="number" [(ngModel)]="oferta.vacantes"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Contacto</ion-label>
+    <ion-input [(ngModel)]="oferta.contacto"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Tipo oferta</ion-label>
+    <ion-select [(ngModel)]="oferta.tipo_oferta">
+      <ion-option value="Pasantía">Pasantía</ion-option>
+      <ion-option value="Empleo">Empleo</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Empresa</ion-label>
+    <ion-select [(ngModel)]="oferta.empresa_id">
+      <ion-option *ngFor="let empresa of empresas" [value]="empresa.id">{{empresa.nombre}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Fecha de vencimiento</ion-label>
+    <ion-datetime [(ngModel)]="oferta.fecha_fin" displayFormat="MM/DD/YYYY" [(ngModel)]="myDate"></ion-datetime>
+  </ion-item>
+  <br>
+  <ion-item no-lines>
+    <ion-label>Activar oferta</ion-label>
+    <ion-checkbox [(ngModel)]="oferta.estado" checked="true"></ion-checkbox>
+  </ion-item>
+  <br>
+  <br>
+  <button ion-button block (click)="guardarOferta(oferta)">Guardar</button>
+</ion-content>

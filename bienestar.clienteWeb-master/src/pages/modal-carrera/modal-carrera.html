@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Registro de Carreras</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>Nombre</ion-label>
+      <ion-input [(ngModel)]="carrera.nombre" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Facultad</ion-label>
+      <ion-select [(ngModel)]="carrera.facultad_id">
+        <ion-option *ngFor="let item of facultades" [value]="item.id">{{ item.nombre }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-footer>
+      <button ion-button block (click)="guardar()">Guardar</button>
+    </ion-footer>
+
+  </ion-list>
+
+</ion-content>

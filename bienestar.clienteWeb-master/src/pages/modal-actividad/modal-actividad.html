@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+
+  <ion-item>
+    <ion-label floating>Nombre</ion-label>
+    <ion-input [(ngModel)]="actividad.nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Detalle</ion-label>
+    <ion-textarea [(ngModel)]="actividad.detalle"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label id="poster_actividad" stacked>Poster</ion-label>
+    <ion-input type="file" accept="image/*" (change)="guardarPosterActividad($event)"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Fecha de inicio</ion-label>
+    <ion-datetime [(ngModel)]="actividad.fecha_inicio" displayFormat="MM/DD/YYYY"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Fecha de finalización</ion-label>
+    <ion-datetime [(ngModel)]="actividad.fecha_fin" displayFormat="MM/DD/YYYY"></ion-datetime>
+  </ion-item>
+  <br>
+  <ion-item no-lines>
+    <ion-label floating>Tipo Actividad</ion-label>
+    <ion-select [(ngModel)]="actividad.tipo_actividad_id">
+      <ion-option *ngFor="let item of tiposActividad" [value]="item.id">{{item.nombre}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <br>
+  <br>
+  <button ion-button block (click)="guardarActividad(actividad)">Guardar</button>
+</ion-content>

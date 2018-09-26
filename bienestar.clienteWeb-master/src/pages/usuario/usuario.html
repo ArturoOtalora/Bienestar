@@ -1,0 +1,122 @@
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-md-6 offset-md-3>
+        <div padding>
+          <ion-segment [(ngModel)]="segmento">
+            <ion-segment-button value="docentes">
+              Docentes
+            </ion-segment-button>
+            <!-- <ion-segment-button value="administradores">
+              Administradores
+            </ion-segment-button> -->
+          </ion-segment>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div [ngSwitch]="segmento">
+
+    <ion-list *ngSwitchCase="'docentes'">
+       <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-md-10 offset-md-1>
+            <ion-searchbar (ionInput)="filtrarDocentes($event)"></ion-searchbar>
+            <ion-buttons end>
+              <button ion-button round outline color="secondary" (click)="nuevoDocente()">
+                Crear docente
+              </button>
+            </ion-buttons>
+            <ion-card *ngFor="let docente of docentes">
+              <ion-card-header>
+                <h1>{{ docente.nombre }}</h1>
+              </ion-card-header>
+              <ion-card-content>
+                <p text-justify>
+                  <strong>Correo:</strong>
+                  <ion-note>
+                    {{ docente.correo }}
+                  </ion-note>
+                </p>    
+                <button ion-button full (click)="nuevoDocente(docente)">Editar</button>
+              </ion-card-content>
+            </ion-card>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid> 
+
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'administradores'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 col-md-10 offset-md-1>
+            <ion-searchbar (ionInput)="filtrarAdministradores($event)"></ion-searchbar>
+            <ion-buttons end>
+              <button ion-button round outline color="secondary" (click)="nuevoAdministrador()">
+                Crear administrador
+              </button>
+            </ion-buttons>
+            <ion-card *ngFor="let administrador of administradores">
+              <ion-card-header>
+                <h1>{{ administrador.usuario.nombre }}</h1>
+                <ion-note>
+                  {{ administrador.usuario.correo }}
+                </ion-note>
+              </ion-card-header>
+              <!-- <ion-card-content>
+                <p text-justify>
+                        <strong>Detalle: </strong>
+                        <ion-note>
+                          {{ oferta.detalle }} </ion-note>
+                      </p>
+                      <p text-justify>
+                        <strong>Contacto:</strong>
+                        <ion-note>
+                          {{ oferta.contacto }}
+                        </ion-note>
+                      </p>
+                      <p text-justify>
+                        <strong>Tipo oferta:</strong>
+                        <ion-note>
+                          {{ oferta.tipo_oferta }}
+                        </ion-note>
+                      </p>
+                      <p text-justify>
+                        <strong>Fecha vencimiento:</strong>
+                        <ion-note>
+                          {{ oferta.fecha_fin }}
+                        </ion-note>
+                      </p>
+                      <ion-row>
+                        <ion-col col-6>
+                          <p text-justify>
+                            <strong>Estado:</strong>
+                            <ion-badge *ngIf="oferta.estado; else badge">Activa</ion-badge>
+                            <ng-template #badge>
+                              <ion-badge color="danger">Finalizada</ion-badge>
+                            </ng-template>
+                          </p>
+                        </ion-col>
+                        <ion-col col-6 text-right>
+                          <p>
+                            <strong>Vacantes:</strong>
+                            <ion-badge color="secondary">{{ oferta.vacantes }}</ion-badge>
+                          </p>
+                        </ion-col>
+                      </ion-row>
+      
+                      <button *ngIf="isAdmin" ion-button full (click)="editarOferta(oferta)">Editar</button>
+                      <button *ngIf="isAlumno" ion-button full (click)="aplicarOferta(oferta)" [disabled]="!oferta.estado || oferta.aplicado">{{nombreBoton}}</button>
+              </ion-card-content> -->
+            </ion-card>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid> 
+    </ion-list>
+  </div>
+
+</ion-content>
