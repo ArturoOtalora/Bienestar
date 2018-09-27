@@ -27,11 +27,11 @@
   </ion-item>
   <ion-item>
     <ion-label floating>Fecha de inicio</ion-label>
-    <ion-datetime [(ngModel)]="diplomado.fecha_inicio" displayFormat="MM/DD/YYYY"></ion-datetime>
+    <ion-datetime [(ngModel)]="diplomado.fecha_inicio" max="2099"  displayFormat="MM/DD/YYYY"></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label floating>Fecha de finalización</ion-label>
-    <ion-datetime [(ngModel)]="diplomado.fecha_fin" displayFormat="MM/DD/YYYY"></ion-datetime>
+    <ion-datetime [(ngModel)]="diplomado.fecha_fin" max="2099"  displayFormat="MM/DD/YYYY"></ion-datetime>
   </ion-item>
   <br>
   <ion-item no-lines>

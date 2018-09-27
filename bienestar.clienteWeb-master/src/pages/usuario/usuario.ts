@@ -1,7 +1,7 @@
 import { HttpProvider } from './../../providers/http/http';
 import { UsuarioProvider } from './../../providers/usuario/usuario';
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, ToastController } from 'ionic-angular';
 import { Usuario } from '../../modelos/modelos';
 import { ModalUsuario } from '../modal-usuario/modal-usuario';
 
@@ -15,11 +15,13 @@ export class UsuarioPage {
   docentes: any[];
   docentesinit: any[];
   administradores: any[];
+  administradoresinit: any[];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private modalCtrl: ModalController,
     private user: UsuarioProvider,
+    private toastCtrl: ToastController,
     private http: HttpProvider) {
 
     this.segmento = "docentes";
@@ -57,11 +59,13 @@ export class UsuarioPage {
   }
 
   nuevoAdministrador (item: Usuario) {
-   /* let modal = this.modalCtrl.create(ModalUsuario, { data: item,tipo:'Admin' });
+    let modal = this.modalCtrl.create(ModalUsuario, { data: item,tipo:'Admin' });
     modal.onDidDismiss(data => {
-      this.http.get('Administrador').then((data: any) => this.docentes = data.data);
+      this.http.get('usuario/administrador').then((data: any) => {
+        this.administradores = this.administradoresinit = data.data;  
+      });
     });
-    modal.present();*/
+    modal.present();
   }
 
   nuevoDocente(item: Usuario) {

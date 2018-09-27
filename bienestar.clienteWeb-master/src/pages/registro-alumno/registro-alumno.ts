@@ -2,6 +2,7 @@ import { HttpProvider } from './../../providers/http/http';
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '../../../node_modules/@angular/forms';
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-registro-alumno',
@@ -10,6 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '../../../node_modules/@angul
 export class RegistroAlumnoPage {
 
   frmRegistro: FormGroup;
+  inicio: any;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -22,7 +24,10 @@ export class RegistroAlumnoPage {
       nombre: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-ZñÑáéíóúÁÉÍÓÚ ]{3,}')])],
       documento: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(10), Validators.pattern('\\d+')])],
     });
+    this.inicio=HomePage;
   }
+
+
 
   registro() {
     this.http.post('usuario/alumno/', this.frmRegistro.value).then((data: any) => {

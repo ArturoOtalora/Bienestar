@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Pasantia;
+use App\Alumno;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +29,9 @@ class PasantiaController extends Controller
 
     public function find($id)
     {
-        $data = Pasantia::where('alumno_id', $id)->first();
+
+        $alumno = Alumno::where('usuario_id', '=', $id)->first();
+        $data = Pasantia::where('alumno_id', $alumno->id)->first();
 
         return response()->json([
             'data' => $data,
@@ -41,21 +44,23 @@ class PasantiaController extends Controller
 
         try {
 
+            $alumno = Alumno::where('usuario_id', '=', $request->json('alumno_id'))->first();
+
             $data = new Pasantia();
-            $data->fecha_inicio = $request->json('fecha_inicio');
+           $data->fecha_inicio = $request->json('fecha_inicio');
             $data->fecha_fin = $request->json('fecha_fin');
             $data->file_carta = $request->json('file_carta');
             $data->file_evaluacion = $request->json('file_evaluacion');
             $data->file_certificado = $request->json('file_certificado');
             $data->estado = false;
             $data->empresa_id = $request->json('empresa_id');
-            $data->alumno_id = $request->json('alumno_id');
+            $data->alumno_id = $alumno->id;
             $data->observaciones = $request->json('observaciones');
             $data->save();
 
             return response()->json([
                 'data' => $data,
-                'estado' => true,
+                'estado' => true
             ], 200);
 
         } catch (QueryException $ex) {

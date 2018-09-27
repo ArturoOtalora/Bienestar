@@ -5,7 +5,7 @@
                 <div padding>
                     <ion-segment [(ngModel)]="segmento">
                         <ion-segment-button value="regPasantia" *ngIf="isAlumno">
-                            Registrar pasantía
+                            {{tituloRegistrarpasantia}}
                         </ion-segment-button>
                         <ion-segment-button *ngIf="isEmpleado" value="pasantiasReg">
                             Pasantias registradas
@@ -50,13 +50,13 @@
                             <ion-col col-12 col-md-6>
                                 <ion-item>
                                     <ion-label floating>Fecha de inicio</ion-label>
-                                    <ion-datetime [(ngModel)]="pasantiaReg.fecha_inicio" displayFormat="MM/DD/YYYY"></ion-datetime>
+                                    <ion-datetime [(ngModel)]="pasantiaReg.fecha_inicio" max="2099" displayFormat="MM/DD/YYYY"></ion-datetime>
                                 </ion-item>
                             </ion-col>
                             <ion-col col-12 col-md-6>
                                 <ion-item>
                                     <ion-label floating>Fecha fin</ion-label>
-                                    <ion-datetime [(ngModel)]="pasantiaReg.fecha_fin" displayFormat="MM/DD/YYYY"></ion-datetime>
+                                    <ion-datetime [(ngModel)]="pasantiaReg.fecha_fin" max="2099" displayFormat="MM/DD/YYYY"></ion-datetime>
                                 </ion-item>
                             </ion-col>
                             <ion-col col-12 col-md-6>

@@ -18,6 +18,7 @@ export class ModalUsuario {
     public navParams: NavParams,
     private viewCtrl: ViewController,
     private http: HttpProvider,
+    private toastCtrl: ToastController,
     private frmBuilder: FormBuilder) {
 
 
@@ -50,13 +51,45 @@ export class ModalUsuario {
       this.recurso='usuario/docente/'
     }
     else{
-      this.recurso='usuario/admin/'
+      this.recurso='usuario/administrador/'
     }
  
     if (this.usuario.id) {     
-      this.http.put('usuario/' + this.usuario.id, this.frmRegistro.value).then((data: any) => this.viewCtrl.dismiss());             
+      this.http.put('usuario/' + this.usuario.id, this.frmRegistro.value).then((data: any) => {
+        if (data.estado) {
+          let toast = this.toastCtrl.create({
+            message: 'Usuario actualizado con éxito',
+            duration: 1500
+          });
+          toast.present();
+          this.viewCtrl.dismiss()
+        }
+        else {
+          let toast = this.toastCtrl.create({
+            message: data.mensaje,
+            duration: 1500
+          });
+          toast.present();
+        }
+      });             
   } else {
-    this.http.post(this.recurso, this.frmRegistro.value).then((data: any) => this.viewCtrl.dismiss());
+    this.http.post(this.recurso, this.frmRegistro.value).then((data: any) => {
+      if (data.estado) {
+        let toast = this.toastCtrl.create({
+          message: 'Usuario creado con éxito',
+          duration: 1500
+        });
+        toast.present();
+        this.viewCtrl.dismiss()
+      }
+      else {
+        let toast = this.toastCtrl.create({
+          message: data.mensaje,
+          duration: 1500
+        });
+        toast.present();
+      }
+    });
   }
   }
 

@@ -42,7 +42,7 @@
   </ion-item>
   <ion-item>
     <ion-label floating>Fecha de vencimiento</ion-label>
-    <ion-datetime [(ngModel)]="oferta.fecha_fin" displayFormat="MM/DD/YYYY" [(ngModel)]="myDate"></ion-datetime>
+    <ion-datetime [(ngModel)]="oferta.fecha_fin" max="2099"  displayFormat="MM/DD/YYYY" [(ngModel)]="myDate"></ion-datetime>
   </ion-item>
   <br>
   <ion-item no-lines>

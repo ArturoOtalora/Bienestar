@@ -17,6 +17,7 @@ export class PasantiaPage {
   pasantias: Pasantia[];
   isEmpleado: boolean;
   isAlumno: boolean;
+  tituloRegistrarpasantia : String;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -26,6 +27,7 @@ export class PasantiaPage {
 
     this.pasantiaAlumno = new Pasantia();
     this.pasantiaReg = new Pasantia();
+    this.tituloRegistrarpasantia='Registrar Pasantia'
     this.validarUsuario();
     this.getEmpresas();
   }
@@ -33,6 +35,9 @@ export class PasantiaPage {
   getPasantiaAlumno() {
     this.http.get('pasantia/' + this.user.getUsuario().id).then((data: any) => {
       this.pasantiaAlumno = data.data
+      if(this.pasantiaAlumno){
+        this.tituloRegistrarpasantia='Pasantia Registrada'
+      }      
     });
   }
 
@@ -47,7 +52,7 @@ export class PasantiaPage {
   }
 
   validarUsuario() {
-
+console.log(this.user.getRol());
     switch (this.user.getRol().nombre) {
       case "Docente":
         break;
@@ -102,11 +107,11 @@ export class PasantiaPage {
     else {
       this.pasantiaReg.alumno_id = this.user.getUsuario().id;
       this.http.post('pasantia', this.pasantiaReg).then((data: any) => {
-        if (data.mensaje) {
+        if (!data.estado) {
           console.log(data.data);
         }
         else {
-
+          //console.log('paaaas');
           let toast = this.toastCtrl.create({
             message: 'Registro realizado con éxito',
             duration: 1500

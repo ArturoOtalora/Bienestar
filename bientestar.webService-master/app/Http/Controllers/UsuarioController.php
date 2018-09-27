@@ -45,12 +45,20 @@ class UsuarioController extends Controller
             if ($usuario) {
 
                 $alumno = Alumno::where('usuario_id', '=', $usuario->id)->first();
+                $administrador = Administrador::where('usuario_id', '=', $usuario->id)->first();
                 if ($alumno) {
                     return response()->json([
                         'estado' => false,
                         'mensaje' => 'El alumno ya existe',
                     ]);
-                } else {
+                }
+               else if ($administrador) {
+                    return response()->json([
+                        'estado' => false,
+                        'mensaje' => 'El usuario no se puede crear, perfil no valido',
+                    ]);
+                }
+                else {
                     $temp='existente';
                     $alumno = new Alumno();
                     $alumno->usuario_id = $usuario->id;
@@ -134,12 +142,20 @@ class UsuarioController extends Controller
             if ($usuario) {
 
                 $docente = Docente::where('usuario_id', '=', $usuario->id)->first();
+                $administrador = Administrador::where('usuario_id', '=', $usuario->id)->first();
                 if ($docente) {
                     return response()->json([
                         'estado' => false,
                         'mensaje' => 'El docente ya existe',
                     ]);
-                } else {
+                }
+                else if ($administrador) {
+                    return response()->json([
+                        'estado' => false,
+                        'mensaje' => 'El usuario no se puede crear, perfil no valido',
+                    ]);
+                }
+                else {
                     $docente = new Docente();
                     $docente->usuario_id = $usuario->id;
                     $docente->estado = 1;
@@ -221,17 +237,99 @@ class UsuarioController extends Controller
 
     public function getAdministradores()
     {
-        $data = Administrador::with('usuario')->get();
+
+        $data = DB::table('administrador')
+        ->join('usuario', 'usuario.id', '=', 'administrador.usuario_id')       
+        ->select('usuario.nombre','usuario.correo','usuario.documento','usuario.id')
+        ->get();
 
         return response()->json([
-            'data' => $data,
+           'data' => $data,
             'estado' => true,
         ], 200);
+
     }
 
     public function crearAdministrador(Request $request)
     {
+        try {
 
+            $usuario = Usuario::where('documento', '=', $request->json('documento'))
+              /*  ->orWhere('correo', '=', $request->json('correo'))*/->first();
+
+            if ($usuario) {
+                $alumno = Alumno::where('usuario_id', '=', $usuario->id)->first();
+                $docente = Docente::where('usuario_id', '=', $usuario->id)->first();
+                $administrador = Administrador::where('usuario_id', '=', $usuario->id)->first();
+                if ($administrador) {
+                    return response()->json([
+                        'estado' => false,
+                        'mensaje' => 'El administrador ya existe',
+                    ]);
+                }
+                else if ($alumno || $docente) {
+                    return response()->json([
+                        'estado' => false,
+                        'mensaje' => 'El usuario no se puede crear, perfil no valido',
+                    ]);
+                }
+                else {
+                    $docente = new Administrador();
+                    $docente->usuario_id = $usuario->id;
+                    $docente->estado = 1;
+                    $docente->save();
+
+                    $rol = Rol::where('nombre', '=', 'Administrador')->first();
+                    $usuario_rol = new RolUsuario();
+                    $usuario_rol->usuario_id = $usuario->id;
+                    $usuario_rol->rol_id = $rol->id;
+                    $usuario_rol->save();
+
+                    return response()->json([
+                        'data' => $usuario,
+                        'estado' => true,
+                    ], 200);
+                }
+
+            } else {
+
+                $usuario = new Usuario();
+                DB::transaction(function () use ($request, $usuario) {
+
+                    $usuario->nombre = $request->json('nombre');
+                    $usuario->documento = $request->json('documento');
+                    $usuario->correo = $request->json('correo');
+                    $usuario->contrasena = Hash::make($request->json('documento'));
+                    $usuario->token = str_random(32);
+                    $usuario->save();
+
+                    $docente = new Administrador();
+                    $docente->usuario_id = $usuario->id;
+                    $docente->estado = 1;
+                    $docente->save();
+
+                    $rol = Rol::where('nombre', '=', 'Administrador')->first();
+                    $usuario_rol = new RolUsuario();
+                    $usuario_rol->usuario_id = $usuario->id;
+                    $usuario_rol->rol_id = $rol->id;
+                    $usuario_rol->save();
+
+                });
+
+                return response()->json([
+                    'data' => Usuario::where('id', $usuario->id)->with('rolUsuario')->first(),
+                    'estado' => true,
+                ], 200);
+
+            }
+
+        } catch (QueryException $ex) {
+            return response()->json([
+                'estado' => false,
+                'mensaje' => 'Error registrando el docente',
+                'detalles' => $ex,
+            ]);
+        }
     }
 
 }
