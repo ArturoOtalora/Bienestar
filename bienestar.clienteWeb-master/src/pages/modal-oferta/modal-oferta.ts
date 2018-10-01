@@ -31,6 +31,14 @@ export class ModalOfertaPage {
   }
 
   guardarOferta(oferta: any) {
+    let fechaActual = new Date();
+    let fechaSeleccionada = new Date(oferta.fecha_fin);
+    fechaSeleccionada.setDate(fechaSeleccionada.getDate()+1);
+   /*console.log(myDate.toISOString());
+    console.log(myDate3.toISOString());*/
+    fechaActual.toLocaleDateString();
+    fechaSeleccionada.toLocaleDateString();
+
 
     if (!oferta.titulo || !oferta.detalle || !oferta.contacto ||
       !oferta.empresa_id || !oferta.tipo_oferta || !oferta.vacantes || !oferta.fecha_fin) {
@@ -40,6 +48,13 @@ export class ModalOfertaPage {
       });
       toast.present();
     }
+   /*else if ((oferta.vacantes<1) || (fechaSeleccionada<fechaActual)) {
+      let toast = this.toastCtrl.create({
+        message: 'Hay campos invalidos',
+        duration: 1500
+      });
+      toast.present();
+    }*/
     else {
       if (this.oferta.id) {
         this.editar(oferta);

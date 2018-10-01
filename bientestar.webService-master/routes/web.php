@@ -9,6 +9,8 @@ $router->group(['prefix' => 'usuario'], function ($router) {
 
     $router->group(['prefix' => '/alumno'], function ($router) {
         $router->post('/', 'UsuarioController@crearAlumno');
+        $router->get('/{id}', 'UsuarioController@getAlumno');
+        $router->put('/{id}', 'UsuarioController@actualizarAlumno');
     });
 
     $router->group(['prefix' => '/docente'], function ($router) {

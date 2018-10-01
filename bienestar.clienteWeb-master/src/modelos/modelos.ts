@@ -87,6 +87,7 @@ export class Diplomado {
 export class Alumno {
     id: number;
     usuario_id:number;
+    file_curriculum:any;
 }
 
 export class Actividad {

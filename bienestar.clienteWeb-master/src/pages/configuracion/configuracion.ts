@@ -6,7 +6,7 @@ import { UsuarioProvider } from './../../providers/usuario/usuario';
 import { HttpProvider } from './../../providers/http/http';
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
-import { Empresa, Facultad, TipoActividad, Carrera, Rol } from '../../modelos/modelos';
+import { Empresa, Facultad, TipoActividad, Carrera, Rol, Alumno } from '../../modelos/modelos';
 
 @Component({
   selector: 'page-configuracion',
@@ -23,7 +23,8 @@ export class ConfiguracionPage {
   segmento: any;
   isAdmin: boolean;
   isAlumno: boolean;
-
+  hv:any;
+  alumno:Alumno;
 
 
   constructor(public navCtrl: NavController,
@@ -32,7 +33,8 @@ export class ConfiguracionPage {
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
     private user: UsuarioProvider) {
-
+      this.alumno=new Alumno();
+      
     this.validarUsuario();
     this.cargarData();
 
@@ -88,8 +90,48 @@ export class ConfiguracionPage {
     if (this.rol.nombre === 'Alumno') {
       this.isAlumno = true;
       this.segmento = 'perfil';
-
+      this.getAlumno();
     }
+  }
+
+  getAlumno(){
+    this.http.get('usuario/alumno/' + this.user.getUsuario().id).then((data: any) => {
+      this.alumno = data.data
+    });
+  }
+
+  ActualizarHVAlumno(){
+    console.log(this.alumno);
+    this.http.put('usuario/alumno/' + this.alumno.id, this.alumno).then((data: any) => {
+
+      let toast = this.toastCtrl.create({
+        message: 'Hoja de vida actualizada con éxito',
+        duration: 1500
+      });
+      toast.present();
+      this.getAlumno();
+    });
+
+  }
+
+  subirHV($event) {
+    var file: File = $event.target.files[0];
+    var myReader: FileReader = new FileReader();
+    myReader.onloadend = (e) => {
+      this.alumno.file_curriculum = myReader.result;
+    }
+    myReader.readAsDataURL(file);
+  }
+
+  convertir(archivo) {
+
+    var blob = new Blob([archivo]);
+    var a = window.document.createElement("a");
+    a.href = window.URL.createObjectURL(blob);
+    a.download = "filename.pdf";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 
 }

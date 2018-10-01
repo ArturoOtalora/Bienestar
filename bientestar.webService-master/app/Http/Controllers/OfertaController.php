@@ -68,6 +68,22 @@ class OfertaController extends Controller
 
         try {
 
+            $currentTime=Carbon::now();
+            $currentTime->hour = 0;
+            $currentTime->minute = 0;
+            $currentTime->second = 0;
+            $fecha_fin=new Carbon($request->json('fecha_fin'));
+            $fechainvalida=$fecha_fin->lt($currentTime);
+
+            if(($fechainvalida) || ($request->json('vacantes')<1) ){
+
+                return response()->json([
+                    'estado' => false,
+                    'mensaje' => 'Información invalida'
+                ]);
+            }
+            else{
+
             $data = new Oferta();
             $data->titulo = $request->json('titulo');
             $data->detalle = $request->json('detalle');
@@ -83,6 +99,7 @@ class OfertaController extends Controller
                 'data' => $data,
                 'estado' => true,
             ], 200);
+        }
 
         } catch (QueryException $ex) {
             return response()->json([
@@ -96,6 +113,22 @@ class OfertaController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $currentTime=Carbon::now();
+            $currentTime->hour = 0;
+            $currentTime->minute = 0;
+            $currentTime->second = 0;
+            $fecha_fin=new Carbon($request->json('fecha_fin'));
+            $fechainvalida=$fecha_fin->lt($currentTime);
+
+
+            if(($fechainvalida) || ($request->json('vacantes')<1) ){
+
+                return response()->json([
+                    'estado' => false,
+                    'mensaje' => 'Información invalida'
+                ]);
+            }
+            else{
             $data = Oferta::find($id);
             $data->titulo = $request->json('titulo');
             $data->detalle = $request->json('detalle');
@@ -107,11 +140,11 @@ class OfertaController extends Controller
             $data->estado = $request->json('estado');
             $data->save();
 
-            return response()->json([
+            return response()->json([   
                 'data' => $data,
                 'estado' => true,
             ], 200);
-
+        }
         } catch (QueryException $ex) {
             return response()->json([
                 'estado' => false,

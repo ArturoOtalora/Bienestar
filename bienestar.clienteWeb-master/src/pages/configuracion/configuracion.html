@@ -17,7 +17,7 @@
             <ion-segment-button *ngIf="isAdmin" value="tipoActividad">
               Tipos actividad
             </ion-segment-button>
-            <ion-segment-button value="perfil">
+            <ion-segment-button *ngIf="isAlumno" value="perfil">
               Perfil
             </ion-segment-button>
           </ion-segment>
@@ -154,6 +154,29 @@
         <ion-row>
           <ion-col col-12 col-md-10 offset-md-1>
             <h2 text-center>Datos del usuario</h2>
+            <ion-row>
+                <ion-col col-12 col-md-10 offset-md-1>
+                    <ion-row>
+                        <ion-col col-12 col-md-6>
+                            <ion-item no-lines>
+                                <ion-label id="file_carta" stacked>Hoja de Vida</ion-label>
+                                <ion-input type="file" accept="application/pdf" (change)="subirHV($event)"></ion-input>
+                            </ion-item>
+                        </ion-col>  
+                        <ion-col col-12 col-md-6  *ngIf="alumno.file_curriculum">
+                          <ion-item no-lines>
+                              <a (click)="convertir(alumno.file_curriculum)">Descargar Actual</a>
+                          </ion-item>
+                      </ion-col>  
+               
+                        <ion-col col-12>
+                            <ion-item no-lines>
+                                <button ion-button block (click)="ActualizarHVAlumno()">Enviar</button>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
           </ion-col>
         </ion-row>
       </ion-grid>

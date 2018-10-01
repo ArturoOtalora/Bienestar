@@ -235,6 +235,47 @@ class UsuarioController extends Controller
         }
     }
 
+    public function actualizarAlumno(Request $request, $id){
+        try{
+
+            $data = Alumno::find($id);
+            $data->file_curriculum = $request->json('file_curriculum');
+            $data->save();
+
+           return response()->json([
+            'data' => $data,
+            'estado' => true,
+        ], 200);
+        }
+        catch (QueryException $ex) {
+            return response()->json([
+                'estado' => false,
+                'mensaje' => 'Error actualizando el alumno',
+                'detalles' => $ex,
+            ]);
+        }
+    
+    }
+
+    public function getAlumno(Request $request, $id){
+        try{
+           $alumno = Alumno::where('usuario_id', '=', $request->id)->first();
+
+           return response()->json([
+            'data' => $alumno,
+            'estado' => true,
+        ], 200);
+        }
+        catch (QueryException $ex) {
+            return response()->json([
+                'estado' => false,
+                'mensaje' => 'Error obteniendo el alumno',
+                'detalles' => $ex,
+            ]);
+        }
+    
+    }
+
     public function getAdministradores()
     {
 
