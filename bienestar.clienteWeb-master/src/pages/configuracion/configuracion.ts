@@ -103,7 +103,7 @@ export class ConfiguracionPage {
   ActualizarHVAlumno(){
     console.log(this.alumno);
     this.http.put('usuario/alumno/' + this.alumno.id, this.alumno).then((data: any) => {
-
+      this.user.user.file_curriculum= this.alumno.file_curriculum;
       let toast = this.toastCtrl.create({
         message: 'Hoja de vida actualizada con éxito',
         duration: 1500
