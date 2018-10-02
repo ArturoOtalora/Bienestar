@@ -33,11 +33,7 @@ export class HomePage {
 
   }
 
-  getAlumno(){
-    this.http.get('usuario/alumno/' + this.user.getUsuario().id).then((data: any) => {
-      this.alumno = data.data
-        });
-}
+
 
   login() {
     this.http.post('usuario/login/', this.frmLogin.value).then((data: any) => {
