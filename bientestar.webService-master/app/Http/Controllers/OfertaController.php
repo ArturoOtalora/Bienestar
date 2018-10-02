@@ -53,7 +53,7 @@ class OfertaController extends Controller
             ->join('empresa', 'oferta.empresa_id', '=', 'empresa.id')
             ->join('alumno', 'alumno_oferta.alumno_id', '=', 'alumno.id')
             ->join('usuario', 'alumno.usuario_id', '=', 'usuario.id')
-            ->select('oferta.*', 'empresa.nombre as empresa_nombre', 'usuario.*')
+            ->select('oferta.*', 'empresa.nombre as empresa_nombre', 'usuario.*','alumno.file_curriculum')
             ->where('oferta.fecha_fin', '>=', Carbon::today()->toDateString())
             ->get();
 

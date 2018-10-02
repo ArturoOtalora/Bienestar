@@ -33,34 +33,52 @@ export class HomePage {
 
   }
 
+  getAlumno(){
+    this.http.get('usuario/alumno/' + this.user.getUsuario().id).then((data: any) => {
+      this.alumno = data.data
+        });
+}
+
   login() {
     this.http.post('usuario/login/', this.frmLogin.value).then((data: any) => {
       if (data.estado) {
-        this.user.setUsuario(data.data);
-        let toast = this.toastCtrl.create({
-          message: 'Bienvenido ' + data.data.nombre,
-          duration: 1500,
-          position: 'top'
-        });
-        toast.present();
-        if (data.data.rol_usuario) {
-          if (Object.keys(data.data.rol_usuario).length == 1) {
-            this.user.setRol(data.data.rol_usuario[0].rol);
-            this.navCtrl.setRoot(MenuPage);
+     
+        this.http.get('usuario/alumno/' + data.data.id).then((datacurri: any) => {
+          let file=null;
+          if(datacurri.data === null){
+            file=null;
           }
-          else {
-            const modal = this.modalCtrl.create(ModalRolPage);
-            modal.present();
+          else{
+            file=datacurri.data.file_curriculum;
           }
-        }
-        else {
+          this.user.setUsuario(data.data,file);
           let toast = this.toastCtrl.create({
-            message: 'El usuario no tiene roles asignados',
+            message: 'Bienvenido ' + data.data.nombre,
             duration: 1500,
             position: 'top'
           });
           toast.present();
-        }
+          if (data.data.rol_usuario) {
+            if (Object.keys(data.data.rol_usuario).length == 1) {
+              this.user.setRol(data.data.rol_usuario[0].rol);
+              this.navCtrl.setRoot(MenuPage);
+            }
+            else {
+              const modal = this.modalCtrl.create(ModalRolPage);
+              modal.present();
+            }
+          }
+          else {
+            let toast = this.toastCtrl.create({
+              message: 'El usuario no tiene roles asignados',
+              duration: 1500,
+              position: 'top'
+            });
+            toast.present();
+          }
+            });
+
+       
       }
       else {
         let toast = this.toastCtrl.create({

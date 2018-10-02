@@ -1,9 +1,10 @@
 import { UsuarioProvider } from './../../providers/usuario/usuario';
-import { Oferta, Rol } from '../../modelos/modelos';
+import { Oferta, Rol, Alumno } from '../../modelos/modelos';
 import { ModalOfertaPage } from '../modal-oferta/modal-oferta';
 import { HttpProvider } from '../../providers/http/http';
-import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, ToastController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, ModalController, ToastController, Nav } from 'ionic-angular';
+import { ConfiguracionPage } from '../configuracion/configuracion';
 
 @Component({
   selector: 'page-oferta',
@@ -20,22 +21,25 @@ export class OfertaPage {
   isAdmin: boolean;
   isDocente: boolean;
   isAlumno: boolean;
+  isAlumnoHV: boolean;
   segmento: any;
   nombreBoton: string;
   misOfertas: Oferta[];
   aplicadas: Oferta[];
   aplicadasInit: Oferta[];
+  alumno:Alumno;
+
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private http: HttpProvider,
     private modalCtrl: ModalController,
-    private user: UsuarioProvider) {
-
+    private user: UsuarioProvider, private toastCtrl: ToastController) {
+    this.alumno=new Alumno();
     this.nombreBoton = 'Aplicar'
     this.segmento = "ofertas";
-
     this.validarUsuario();
+
   }
 
   getOfertas() {
@@ -89,17 +93,30 @@ export class OfertaPage {
     this.rol = this.user.getRol();
     this.getOfertas();
     this.getAplicadas();
+
     if (this.rol.nombre === 'Administrador') {
       this.isAdmin = true;
     }
     if (this.rol.nombre === 'Alumno') {
       this.isAlumno = true;
+      console.log(this.user.user.file_curriculum);
+      if (this.user.user.file_curriculum === null){
+        let toast = this.toastCtrl.create({
+          message: 'Debe adjuntar Hoja de vida en la opción de configuración',
+          duration: 15000
+        });
+        toast.present();         
+      }
+      else{
+        this.isAlumnoHV=true;
+      }
     }
     if (this.rol.nombre === 'Docente') {
       this.isDocente = true;
     }
 
   }
+  
 
   inicializar() {
     this.ofertas = this.ofertasInit;
@@ -148,5 +165,15 @@ export class OfertaPage {
       }
     }
   }
+  
+  convertir(archivo) {
+     const linkSource = archivo;
+     const downloadLink = document.createElement("a");
+     const fileName = "hv_"+this.user.user.nombre+"_"+this.user.user.documento+".pdf";
+ 
+     downloadLink.href = linkSource;
+     downloadLink.download = fileName;
+     downloadLink.click();  
+   } 
 
 }

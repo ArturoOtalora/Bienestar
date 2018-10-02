@@ -75,7 +75,16 @@ console.log(this.user.getRol());
     var file: File = $event.target.files[0];
     var myReader: FileReader = new FileReader();
     myReader.onloadend = (e) => {
-      this.pasantiaReg.file_carta = myReader.result;
+      if(file.type==='application/pdf'){
+        this.pasantiaReg.file_carta = myReader.result;
+      } 
+      else{
+        let toast = this.toastCtrl.create({
+          message: 'Tipo de archivo invalido',
+          duration: 1500
+        });
+        toast.present();
+      }
     }
     myReader.readAsDataURL(file);
   }
@@ -83,7 +92,16 @@ console.log(this.user.getRol());
     var file: File = $event.target.files[0];
     var myReader: FileReader = new FileReader();
     myReader.onloadend = (e) => {
+      if(file.type==='application/pdf'){
       this.pasantiaReg.file_evaluacion = myReader.result;
+      }
+      else{
+        let toast = this.toastCtrl.create({
+          message: 'Tipo de archivo invalido',
+          duration: 1500
+        });
+        toast.present();
+      }
     }
     myReader.readAsDataURL(file);
   }
@@ -91,7 +109,16 @@ console.log(this.user.getRol());
     var file: File = $event.target.files[0];
     var myReader: FileReader = new FileReader();
     myReader.onloadend = (e) => {
+      if(file.type==='application/pdf'){
       this.pasantiaReg.file_certificado = myReader.result;
+      }
+      else{
+        let toast = this.toastCtrl.create({
+          message: 'Tipo de archivo invalido',
+          duration: 1500
+        });
+        toast.present();
+      }
     }
     myReader.readAsDataURL(file);
   }
@@ -125,13 +152,20 @@ console.log(this.user.getRol());
 
   convertir(archivo) {
 
-    var blob = new Blob([archivo]);
+   /* var blob = new Blob([archivo]);
     var a = window.document.createElement("a");
     a.href = window.URL.createObjectURL(blob);
     a.download = "filename.pdf";
     document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a);
+    document.body.removeChild(a);*/
+    const linkSource = archivo;
+    const downloadLink = document.createElement("a");
+    const fileName = "info_"+this.user.user.nombre+"_"+this.user.user.documento+".pdf";
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();  
   }
 
   guardar(pasantia: Pasantia) {

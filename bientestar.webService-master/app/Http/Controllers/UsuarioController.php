@@ -18,7 +18,8 @@ class UsuarioController extends Controller
 
     public function login(Request $request)
     {
-        $usuario = Usuario::where('documento', '=', $request->json('documento'))->first();
+       $usuario = Usuario::where('documento', '=', $request->json('documento'))->first();     
+
         if ($usuario) {
             if (Hash::check($request->json('contrasena'), $usuario->contrasena)) {
                 return response()->json([

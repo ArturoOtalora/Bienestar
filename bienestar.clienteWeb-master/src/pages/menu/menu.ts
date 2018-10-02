@@ -30,6 +30,7 @@ export class MenuPage {
     private toastCtrl: ToastController) {
 
     this.getPermisos();
+
   }
 
   getPermisos() {
@@ -40,6 +41,7 @@ export class MenuPage {
       this.abrirPagina(this.menu[0].permiso);
     });
   }
+
 
   abrirPagina(item: any) {
 

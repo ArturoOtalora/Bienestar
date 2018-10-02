@@ -4,7 +4,7 @@
       <ion-col col-12 col-md-6 offset-md-3>
         <div padding>
           <ion-segment [(ngModel)]="segmento">
-            <ion-segment-button value="ofertas">
+            <ion-segment-button  value="ofertas">
               Ofertas
             </ion-segment-button>
             <ion-segment-button *ngIf="isAlumno" value="misAplicaciones">
@@ -80,7 +80,7 @@
                 </ion-row>
 
                 <button *ngIf="isAdmin" ion-button full (click)="editarOferta(oferta)">Editar</button>
-                <button *ngIf="isAlumno" ion-button full (click)="aplicarOferta(oferta)" [disabled]="!oferta.estado || oferta.aplicado">{{nombreBoton}}</button>
+                <button *ngIf="isAlumnoHV" ion-button full (click)="aplicarOferta(oferta)" [disabled]="!oferta.estado || oferta.aplicado">{{nombreBoton}}</button>
               </ion-card-content>
             </ion-card>
 
@@ -190,6 +190,13 @@
                       {{ oferta.correo }}
                     </ion-note>
                   </p>
+                  <p text-justify>
+                    <strong>Hoja de Vida:</strong>
+                    <ion-note>
+                        <!-- pasantiaAlumno.file_certificado -->
+                        <a (click)="convertir(oferta.file_curriculum)">Descargar</a>
+                    </ion-note>
+                </p>
                 </ion-card-content>
               </ion-card>
 
@@ -199,6 +206,7 @@
       </ion-item>
 
     </ion-list>
+
 
   </div>
 

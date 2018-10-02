@@ -44,6 +44,7 @@ export class Usuario {
     documento: number;
     token: string;
     rol_usuario: RolUsuario[];
+    file_curriculum:any;
 }
 
 export class RolUsuario {

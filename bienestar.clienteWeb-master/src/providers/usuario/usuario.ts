@@ -10,8 +10,9 @@ export class UsuarioProvider {
 
   }
 
-  setUsuario(user: Usuario) {
+  setUsuario(user: Usuario, file_curriculum:any) {
     this.user = user;
+    this.user.file_curriculum=file_curriculum;
   }
 
   getUsuario() {

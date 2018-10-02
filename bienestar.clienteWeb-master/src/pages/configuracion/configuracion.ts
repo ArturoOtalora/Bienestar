@@ -118,20 +118,29 @@ export class ConfiguracionPage {
     var file: File = $event.target.files[0];
     var myReader: FileReader = new FileReader();
     myReader.onloadend = (e) => {
-      this.alumno.file_curriculum = myReader.result;
+      if(file.type==='application/pdf'){
+        this.alumno.file_curriculum = myReader.result;
+      } 
+      else{
+        let toast = this.toastCtrl.create({
+          message: 'Tipo de archivo invalido',
+          duration: 1500
+        });
+        toast.present();
+      }
     }
     myReader.readAsDataURL(file);
   }
 
   convertir(archivo) {
+ console.log(archivo);
+    const linkSource = archivo;
+    const downloadLink = document.createElement("a");
+    const fileName = "hv_"+this.user.user.nombre+"_"+this.user.user.documento+".pdf";
 
-    var blob = new Blob([archivo]);
-    var a = window.document.createElement("a");
-    a.href = window.URL.createObjectURL(blob);
-    a.download = "filename.pdf";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 
 }
